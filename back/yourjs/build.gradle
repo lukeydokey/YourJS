@@ -32,6 +32,7 @@ dependencies {
 //    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 //    runtimeOnly 'mysql:mysql-connector-java'
@@ -39,6 +40,11 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 
+    // Swagger 3.0
+    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
+
+    // Apache Commons IO
+    implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
 
     //querydsl 추가
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
@@ -58,6 +64,11 @@ querydsl {
 }
 sourceSets {
     main.java.srcDir querydslDir
+//    main {
+//        java {
+//            srcDir 'build/generated/source/proto/main/java'
+//        }
+//    }
 }
 configurations {
     querydsl.extendsFrom compileClasspath

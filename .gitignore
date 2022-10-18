@@ -1,0 +1,5 @@
+# DS Store ignore
+.DS_Store
+
+#BE properties
+/back/yourjs/src/main/resources/properties
