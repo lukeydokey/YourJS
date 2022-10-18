@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -41,11 +43,13 @@ public class User {
     @Column(name = "info_level", nullable = false)
     private int infoLevel;
 
+    @CreationTimestamp
     @CreatedDate
     @Column(updatable = false,nullable = false)
     private LocalDateTime regDtm;
 
+    @UpdateTimestamp
     @LastModifiedDate
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime modDtm;
 }

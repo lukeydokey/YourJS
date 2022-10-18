@@ -2,11 +2,11 @@ package com.project.yourjs.common.auth;
 
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.project.yourjs.api.service.UserService;
 import com.project.yourjs.common.util.JwtTokenUtil;
 import com.project.yourjs.common.util.ResponseBodyWriteUtil;
 import com.project.yourjs.db.entity.User;
 
+import com.project.yourjs.db.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,12 +22,12 @@ import java.io.IOException;
 
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
-    private UserService userService;
+    private UserRepository userRepository;
 
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, UserService userService) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, UserRepository userRepository) {
         super(authenticationManager);
-        this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -70,7 +70,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             // If so, then grab user details and create spring auth token using username, pass, authorities/roles
             if (userId != null) {
                 // jwt 토큰에 포함된 계정 정보(userId) 통해 실제 디비에 해당 정보의 계정이 있는지 조회.
-                User user = userService.getUserByUserId(userId);
+                User user = userRepository.findUserByUserId(userId);
                 if(user != null) {
                     // 식별된 정상 유저인 경우, 요청 context 내에서 참조 가능한 인증 정보(jwtAuthentication) 생성.
                     PUserDetails userDetails = new PUserDetails(user);

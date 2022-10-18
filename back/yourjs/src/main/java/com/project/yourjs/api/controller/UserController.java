@@ -9,24 +9,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/user")
 @CrossOrigin
 public class UserController {
 
     @Autowired
     UserService userService;
 
-//    @PostMapping
-//    public ResponseEntity<?> register(
-//            @RequestBody UserRegisterPostReq registerInfo) {
-//        String userId = registerInfo.getUserId();
-//        String nickname = registerInfo.getNickname();
-//        if (userService.checkIdDuplicated(userId) && userService.checkNicknameDuplicated(nickname)) {
-//            User user = userService.createUser(registerInfo);
-//            return new ResponseEntity<>(userId + "의 회원가입이 완료되었습니다", HttpStatus.valueOf(200));
-//        }
-//        return new ResponseEntity<>("잘못된 요청입니다", HttpStatus.valueOf(400));
-//    }
+    @PostMapping
+    public ResponseEntity<?> register(
+            @RequestBody UserRegisterPostReq registerInfo) {
+        String userId = registerInfo.getUserId();
+        String nickname = registerInfo.getNickname();
+        if (userService.checkIdDuplicated(userId) && userService.checkNicknameDuplicated(nickname)) {
+            User user = userService.createUser(registerInfo);
+            return new ResponseEntity<>(userId + "의 회원가입이 완료되었습니다", HttpStatus.valueOf(200));
+        }
+        return new ResponseEntity<>("잘못된 요청입니다", HttpStatus.valueOf(400));
+    }
 
 //    @GetMapping("check-id/{userId}")
 //    public ResponseEntity<Boolean> checkId(@PathVariable("userId") String userId) {

@@ -1,8 +1,8 @@
 package com.project.yourjs.config;
 
-import com.project.yourjs.api.service.UserService;
 import com.project.yourjs.common.auth.JwtAuthenticationFilter;
 import com.project.yourjs.common.auth.PUserDetailService;
+import com.project.yourjs.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private PUserDetailService pUserDetailService;
 
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
     // Password 인코딩 방식에 BCrypt 암호화 방식 사용
     @Bean
@@ -57,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증이므로 세션 사용 하지않음
                 .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager(), userService)) //HTTP 요청에 JWT 토큰 인증 필터를 거치도록 필터를 추가
+                .addFilter(new JwtAuthenticationFilter(authenticationManager(), userRepository)) //HTTP 요청에 JWT 토큰 인증 필터를 거치도록 필터를 추가
                 .authorizeRequests()
 //                .antMatchers("users").authenticated()       //인증이 필요한 URL과 필요하지 않은 URL에 대하여 설정
                 .anyRequest().permitAll()
