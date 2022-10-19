@@ -1,6 +1,7 @@
 package com.project.yourjs.db.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -15,13 +16,14 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Table(name = "military")
+@NoArgsConstructor
 public class Military {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "military_seq")
     private Long militarySeq;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "user_seq")
     private User user;
 
@@ -49,4 +51,13 @@ public class Military {
     @LastModifiedDate
     @Column
     private LocalDateTime modDtm;
+
+    public Military(User user, String militaryType, String specialityType, Date startDate, Date endDate, String fileSrc) {
+        this.user = user;
+        this.militaryType = militaryType;
+        this.specialityType = specialityType;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.fileSrc = fileSrc;
+    }
 }
