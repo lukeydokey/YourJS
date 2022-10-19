@@ -11,6 +11,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -50,6 +52,19 @@ public class User {
 
     @UpdateTimestamp
     @LastModifiedDate
-    @Column(nullable = true)
+    @Column
     private LocalDateTime modDtm;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Award> awards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Career> careers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Certificate> certificates = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Education> educations = new ArrayList<>();
+
 }
