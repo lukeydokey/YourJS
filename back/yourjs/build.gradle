@@ -32,6 +32,7 @@ dependencies {
 //    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'de.codecentric:spring-boot-admin-starter-server:2.4.1'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -40,8 +41,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 
-    // Swagger 3.0
-    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
+    // Swagger
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
 
     // JWT
     implementation("com.auth0:java-jwt:3.10.3")
