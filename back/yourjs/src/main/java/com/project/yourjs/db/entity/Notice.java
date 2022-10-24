@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,14 +29,16 @@ public class Notice {
   @Column(name = "notice_seq", nullable = false, columnDefinition = "INT UNSIGNED UNIQUE")
   private Integer noticeSeq;
 
-  private Integer userSeq;
+  private String userName;
 
   @Column(name = "notice_name", length = 45)
   private String noticeName;
 
+  @CreatedDate
   @Column(name = "reg_dtm")
   private LocalDateTime regDtm;
 
+  @LastModifiedDate
   @Column(name = "mod_dtm")
   private LocalDateTime modDtm;
 
