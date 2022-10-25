@@ -35,7 +35,7 @@ public class UserController {
         response.sendRedirect("/api/user");
     }
 
-    @PostMapping("/signup")
+    @PostMapping
     public ResponseEntity<UserDto> signup(
             @Valid @RequestBody UserDto userDto
     ) {
