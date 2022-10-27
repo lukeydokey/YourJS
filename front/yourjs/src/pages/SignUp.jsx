@@ -129,7 +129,9 @@ const SignUp = () => {
       setNicknameState(1);
     } else {
       axios
-        .get('https://jsonplaceholder.typicode.com/todos/1')
+        .post(SERVER_IP + apis.nicknameCheck, {
+          nickname,
+        })
         .then(response => console.log(response));
       // 중복이상 : 2,  사용가능 : 3
       setNicknameState(2);
