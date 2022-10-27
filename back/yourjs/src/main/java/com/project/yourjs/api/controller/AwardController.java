@@ -39,7 +39,7 @@ public class AwardController {
     })
     @GetMapping
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<List<AwardDto>> getAllAwards(Authentication authentication){
+    public ResponseEntity<List<AwardDto>> getAllAward(Authentication authentication){
         return ResponseEntity.ok(awardService.getAllAwards(authentication.getName()));
     }
 
@@ -52,7 +52,7 @@ public class AwardController {
     })
     @PostMapping
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<AwardPostRes> createNotice(Authentication authentication, @Valid @RequestBody AwardPostReq awardPostReq){
+    public ResponseEntity<AwardPostRes> createAward(Authentication authentication, @Valid @RequestBody AwardPostReq awardPostReq){
         return ResponseEntity.ok(awardService.createAward(authentication.getName(), awardPostReq));
     }
 
@@ -65,7 +65,7 @@ public class AwardController {
     })
     @PutMapping
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<AwardPatchRes> updateNotice(Authentication authentication, @Valid @RequestBody AwardDto awardDto){
+    public ResponseEntity<AwardPatchRes> updateAward(Authentication authentication, @Valid @RequestBody AwardDto awardDto){
         return ResponseEntity.ok(awardService.updateAward(authentication.getName(), awardDto));
     }
 
@@ -78,7 +78,7 @@ public class AwardController {
     })
     @DeleteMapping
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<AwardDeleteRes> deleteNotice(Authentication authentication, @Valid @RequestBody AwardDeleteReq awardDeleteReq){
+    public ResponseEntity<AwardDeleteRes> deleteAward(Authentication authentication, @Valid @RequestBody AwardDeleteReq awardDeleteReq){
         return ResponseEntity.ok(awardService.deleteAward(authentication.getName(), awardDeleteReq));
     }
 
