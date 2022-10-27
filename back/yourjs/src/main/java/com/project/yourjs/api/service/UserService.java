@@ -61,6 +61,7 @@ public class UserService {
 
     @Transactional
     public String isDuplicatedUID(String userId) {
+        userId = userId.substring(1, userId.length()-1);
         if(userRepository.findOneWithAuthoritiesByUserId(userId).orElse(null) != null)
             return "이미 가입되어 있는 아이디 입니다.";
         else
@@ -69,6 +70,7 @@ public class UserService {
 
     @Transactional
     public String isDuplicatedUNN(String nickname){
+        nickname = nickname.substring(1, nickname.length()-1);
         if(userRepository.findOneWithAuthoritiesByNickname(nickname).orElse(null) != null)
             return "이미 가입되어 있는 닉네임 입니다.";
         else
