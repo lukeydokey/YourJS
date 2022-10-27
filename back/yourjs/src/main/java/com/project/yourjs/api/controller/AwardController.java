@@ -39,7 +39,7 @@ public class AwardController {
     })
     @GetMapping
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<List<AwardDto>> getAllAward(Authentication authentication){
+    public ResponseEntity<List<AwardDto>> getAllAwards(Authentication authentication){
         return ResponseEntity.ok(awardService.getAllAwards(authentication.getName()));
     }
 
