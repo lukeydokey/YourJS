@@ -52,7 +52,7 @@ public class SecurityConfig {
                 // token을 사용하는 방식이기 때문에 csrf를 disable합니다.
                 .csrf().disable()
 
-                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+                // .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
 
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
@@ -75,8 +75,8 @@ public class SecurityConfig {
                 .antMatchers("/api/swagger/**").permitAll()
                 .antMatchers("/api/swagger-ui.html").permitAll()
                 .antMatchers("/api/swagger-resources/**").permitAll()
-                .antMatchers("/api/user/signup").permitAll()
-                .antMatchers("/api/authenticate").permitAll()
+                .antMatchers("/api/user").permitAll()
+                .antMatchers("/api/user/duple").permitAll()
                 // .antMatchers("/api/test").permitAll()
 
                 .anyRequest().authenticated()
