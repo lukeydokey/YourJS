@@ -57,4 +57,20 @@ public class UserService {
                         .orElseThrow(() -> new NotFoundMemberException("Member not found"))
         );
     }
+
+    @Transactional
+    public String isDuplicatedUID(String userId) {
+        if(userRepository.findOneWithAuthoritiesByUserId(userId).orElse(null) != null)
+            return "이미 가입되어 있는 아이디 입니다.";
+        else
+            return "사용가능한 아이디 입니다.";
+    }
+
+    @Transactional
+    public String isDuplicatedUNN(String nickname){
+        if(userRepository.findOneWithAuthoritiesByNickname(nickname).orElse(null) != null)
+            return "이미 가입되어 있는 닉네임 입니다.";
+        else
+            return "사용가능한 닉네임 입니다.";
+    }
 }

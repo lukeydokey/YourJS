@@ -73,6 +73,16 @@ public class UserController {
         return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
     }
 
+    @PostMapping("/duple/userid")
+    public String isDuplicatedUID(@RequestBody String userId) {
+        return userService.isDuplicatedUID(userId);
+    }
+
+    @PostMapping("/duple/nickname")
+    public String isDuplicatedUNN(@RequestBody String nickname) {
+        return userService.isDuplicatedUNN(nickname);
+    }
+
     @GetMapping("/roles")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<UserDto> getMyUserInfo(HttpServletRequest request) {
