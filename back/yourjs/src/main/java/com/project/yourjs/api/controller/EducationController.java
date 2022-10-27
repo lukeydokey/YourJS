@@ -1,12 +1,12 @@
 package com.project.yourjs.api.controller;
 
-import com.project.yourjs.api.req.CertificateDeleteReq;
-import com.project.yourjs.api.req.CertificatePostReq;
-import com.project.yourjs.api.res.CertificateDeleteRes;
-import com.project.yourjs.api.res.CertificatePostRes;
-import com.project.yourjs.api.res.CertificateUpdateRes;
-import com.project.yourjs.api.service.CertificateService;
-import com.project.yourjs.common.dto.CertificateDto;
+import com.project.yourjs.api.req.EducationDeleteReq;
+import com.project.yourjs.api.req.EducationPostReq;
+import com.project.yourjs.api.res.EducationDeleteRes;
+import com.project.yourjs.api.res.EducationPostRes;
+import com.project.yourjs.api.res.EducationUpdateRes;
+import com.project.yourjs.api.service.EducationService;
+import com.project.yourjs.common.dto.EducationDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,63 +22,63 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Tag(name = "Certificate",description = "자격증/어학 API")
+@Tag(name = "Education",description = "교육사항 API")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/certificate")
-public class CertificateController {
-    
-    private final CertificateService certificateService;
+@RequestMapping("/education")
+public class EducationController {
 
-    @Operation(summary = "Get Certificates", description = "자격증/어학 조회")
+    private final EducationService educationService;
+
+    @Operation(summary = "Get Educations", description = "교육사항 조회")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = CertificateDto.class))),
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = EducationDto.class))),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
     @GetMapping
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<List<CertificateDto>> getAllCertificates(Authentication authentication){
-        return ResponseEntity.ok(certificateService.getAllCertificates(authentication.getName()));
+    public ResponseEntity<List<EducationDto>> getAllEducations(Authentication authentication){
+        return ResponseEntity.ok(educationService.getAllEducations(authentication.getName()));
     }
 
-    @Operation(summary = "Create Certificate", description = "자격증/어학 등록")
+    @Operation(summary = "Create Education", description = "교육사항 등록")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = CertificatePostRes.class))),
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = EducationPostRes.class))),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
     @PostMapping
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<CertificatePostRes> createCertificate(Authentication authentication, @Valid @RequestBody CertificatePostReq certificatePostReq){
-        return ResponseEntity.ok(certificateService.createCertificate(authentication.getName(), certificatePostReq));
+    public ResponseEntity<EducationPostRes> createEducation(Authentication authentication, @Valid @RequestBody EducationPostReq educationPostReq){
+        return ResponseEntity.ok(educationService.createEducation(authentication.getName(), educationPostReq));
     }
 
-    @Operation(summary = "Update Certificate", description = "자격증/어학 수정")
+    @Operation(summary = "Update Education", description = "교육사항 수정")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = CertificateUpdateRes.class))),
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = EducationUpdateRes.class))),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
     @PutMapping
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<CertificateUpdateRes> updateCertificate(Authentication authentication, @Valid @RequestBody CertificateDto certificateDto){
-        return ResponseEntity.ok(certificateService.updateCertificate(authentication.getName(), certificateDto));
+    public ResponseEntity<EducationUpdateRes> updateEducation(Authentication authentication, @Valid @RequestBody EducationDto educationDto){
+        return ResponseEntity.ok(educationService.updateEducation(authentication.getName(), educationDto));
     }
 
-    @Operation(summary = "Delete Certificate", description = "자격증/어학 삭제")
+    @Operation(summary = "Delete Education", description = "교육사항 삭제")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = CertificateDeleteRes.class))),
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = EducationDeleteRes.class))),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
     @DeleteMapping
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<CertificateDeleteRes> deleteCertificate(Authentication authentication, @Valid @RequestBody CertificateDeleteReq certificateDeleteReq){
-        return ResponseEntity.ok(certificateService.deleteCertificate(authentication.getName(), certificateDeleteReq));
+    public ResponseEntity<EducationDeleteRes> deleteEducation(Authentication authentication, @Valid @RequestBody EducationDeleteReq educationDeleteReq){
+        return ResponseEntity.ok(educationService.deleteEducation(authentication.getName(), educationDeleteReq));
     }
 }
