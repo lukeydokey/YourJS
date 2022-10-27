@@ -3,7 +3,7 @@ package com.project.yourjs.api.controller;
 import com.project.yourjs.api.req.AwardDeleteReq;
 import com.project.yourjs.api.req.AwardPostReq;
 import com.project.yourjs.api.res.AwardDeleteRes;
-import com.project.yourjs.api.res.AwardPatchRes;
+import com.project.yourjs.api.res.AwardUpdateRes;
 import com.project.yourjs.api.res.AwardPostRes;
 import com.project.yourjs.api.service.AwardService;
 import com.project.yourjs.common.dto.AwardDto;
@@ -58,14 +58,14 @@ public class AwardController {
 
     @Operation(summary = "Update Award", description = "수상내역 수정")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = AwardPatchRes.class))),
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = AwardUpdateRes.class))),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
     @PutMapping
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<AwardPatchRes> updateAward(Authentication authentication, @Valid @RequestBody AwardDto awardDto){
+    public ResponseEntity<AwardUpdateRes> updateAward(Authentication authentication, @Valid @RequestBody AwardDto awardDto){
         return ResponseEntity.ok(awardService.updateAward(authentication.getName(), awardDto));
     }
 
