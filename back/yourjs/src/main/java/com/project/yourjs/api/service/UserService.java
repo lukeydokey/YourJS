@@ -30,6 +30,10 @@ public class UserService {
         if (userRepository.findOneWithAuthoritiesByUserId(userRegisterPostReq.getUserId()).orElse(null) != null) {
             throw new DuplicateMemberException("이미 가입되어 있는 유저입니다.");
         }
+
+        if(userRepository.findOneWithAuthoritiesByNickname(userRegisterPostReq.getNickname()).orElse(null) != null){
+            throw new DuplicateMemberException("이미 사용중인 닉네임 입니다.");
+        }
         Authority authority = Authority.builder()
                 .authorityName("ROLE_USER")
                 .build();
@@ -60,20 +64,18 @@ public class UserService {
     }
 
     @Transactional
-    public String isDuplicatedUID(String userId) {
-        userId = userId.substring(1, userId.length()-1);
+    public Boolean isDuplicatedUID(String userId) {
         if(userRepository.findOneWithAuthoritiesByUserId(userId).orElse(null) != null)
-            return "이미 가입되어 있는 아이디 입니다.";
+            return false;
         else
-            return "사용가능한 아이디 입니다.";
+            return true;
     }
 
     @Transactional
-    public String isDuplicatedUNN(String nickname){
-        nickname = nickname.substring(1, nickname.length()-1);
+    public Boolean isDuplicatedUNN(String nickname){
         if(userRepository.findOneWithAuthoritiesByNickname(nickname).orElse(null) != null)
-            return "이미 가입되어 있는 닉네임 입니다.";
+            return false;
         else
-            return "사용가능한 닉네임 입니다.";
+            return true;
     }
 }
