@@ -26,20 +26,29 @@ public class TokenProvider implements InitializingBean {
    private final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
    private static final String AUTHORITIES_KEY = "auth";
    private final String secret;
+   private final String refreshSecret;
    private final long tokenValidityInMilliseconds;
+   private final long refreshTokenValidityInMilliseconds;
    private Key key;
+   private Key refreshKey;
 
    public TokenProvider(
       @Value("${jwt.secret}") String secret,
-      @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds) {
+      @Value("${jwt.refreshSecret}") String refreshSecret,
+      @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds,
+      @Value("${jwt.refresh-token-validity-in-seconds}") long refreshTokenValidityInSeconds) {
       this.secret = secret;
+      this.refreshSecret = refreshSecret;
       this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
+      this.refreshTokenValidityInMilliseconds = refreshTokenValidityInSeconds * 1000;
    }
 
    @Override
    public void afterPropertiesSet() {
       byte[] keyBytes = Decoders.BASE64.decode(secret);
+      byte[] refreshKeyBytes = Decoders.BASE64.decode(refreshSecret);
       this.key = Keys.hmacShaKeyFor(keyBytes);
+      this.refreshKey = Keys.hmacShaKeyFor(refreshKeyBytes);
    }
 
    public String createToken(Authentication authentication) {
@@ -54,6 +63,22 @@ public class TokenProvider implements InitializingBean {
          .setSubject(authentication.getName())
          .claim(AUTHORITIES_KEY, authorities)
          .signWith(key, SignatureAlgorithm.HS512)
+         .setExpiration(validity)
+         .compact();
+   }
+
+   public String createRefreshToken(Authentication authentication) {
+      String authorities = authentication.getAuthorities().stream()
+         .map(GrantedAuthority::getAuthority)
+         .collect(Collectors.joining(","));
+
+      long now = (new Date()).getTime();
+      Date validity = new Date(now + this.refreshTokenValidityInMilliseconds);
+
+      return Jwts.builder()
+         .setSubject(authentication.getName())
+         .claim(AUTHORITIES_KEY, authorities)
+         .signWith(refreshKey, SignatureAlgorithm.HS512)
          .setExpiration(validity)
          .compact();
    }
