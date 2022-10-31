@@ -5,10 +5,12 @@ import { useState } from 'react';
 
 
 const Wrapper = styled.div`
+  
 `
 //태그 부분 전체 div
 const TagBox = styled.div`
   display: flex;
+  
 `;
 
 //태그 입력창
@@ -166,7 +168,10 @@ const MyNoticeAddcomponent = ({}) => {
           <CountBox> 현재 글자수 : {content.replace(/<br\s*\/?>/gm, "\n").length}  </CountBox>
           </div>
         </ContentBox>
+        <br></br>
+      
       </div>
+      
     </Wrapper>
   );
 };

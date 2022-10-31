@@ -16,14 +16,30 @@ const TitleBox = styled.div`
 `;
 
 //회사 정보 전달 박스
-const CompanyBox = styled.div``;
+const CompanyBox = styled.div`
+  h1 {
+    color: blue;
+  }
 
-//자기소개서 작성 버튼
+  h3 {
+    color: #3c4048;
+  }
+`;
+
+//자기소개서 작성창 여는 버튼
 const CreateButton = styled.button`
   width: 150px;
   height: 60px;
   background-color: aqua;
   border-radius: 10px;
+  cursor: pointer;
+`;
+
+// 자기소개서 작성창 안에서 최종 작성 버튼.
+const CreateButton2 = styled.button`
+  width: 100px;
+  height: 40px;
+  background-color: #fdfdbd;
   cursor: pointer;
 `;
 // 컨텐츠 박스
@@ -38,7 +54,7 @@ const ContentBox = styled.div`
 `;
 //컨텐츠 박스 속 태그 박스
 const TagBox = styled.div`
-  background-color: yellowgreen;
+  background-color: #81C6E8;
   border-radius: 15px;
   height: 40px;
   width: fit-content;
@@ -53,11 +69,10 @@ const ContentTitle = styled.div`
   padding-left: 15px;
   padding-top: 5px;
   margin-left: 10px;
-  width : 95%;
+  width: 95%;
   height: 50px;
   display: flex;
   align-items: center;
-  border-bottom: 3px dashed grey;
   
 `;
 //컨텐츠 박스 내용
@@ -66,6 +81,11 @@ const ContentContent = styled.div`
   overflow: auto;
   height: 200px;
   width: 95%;
+
+  // 스크롤바 없애기
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 //컨텐츠 박스 제목 텍스트필드
@@ -80,7 +100,7 @@ const ContentTitle2 = styled.input`
   font-size: 16px;
   border-bottom: 3px solid gray;
   background-color: whitesmoke;
-  width : 95%;
+  width: 95%;
   :focus {
     outline: none;
   }
@@ -93,12 +113,11 @@ const ContentContent2 = styled.textarea`
   font-size: 16px;
   width: 70%;
   border: none;
-  width : 95%;
+  width: 95%;
   background-color: whitesmoke;
   :focus {
     outline: none;
   }
-
 `;
 
 //컨텐츠 박스내에 수정 취소 넣기 위한 box
@@ -106,7 +125,7 @@ const ContentEditBox = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
-  height : 40px;
+  height: 40px;
   width: 100%;
 `;
 
@@ -128,6 +147,7 @@ const dummyData = {
   regdate: '2022-09-01',
   company: '지우컴퍼니',
   link: 'www.naver.com',
+  state : "진행중"
 };
 
 const dummy = [
@@ -152,6 +172,7 @@ const dummy = [
     뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
     뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
     뽑아만`,
+    
   },
   {
     title: '지우 컴퍼니에 지원하게 된 동기가 무엇입니까 ??',
@@ -193,39 +214,56 @@ const MyNoticeDetail = () => {
   return (
     // 제목을 두개로 나누는 div
     <Wrapper>
-      <TitleBox>
-        <h1 style={{ width: '70%' }}>내 공고</h1>
-        <div style={{ width: '30%', display: 'flex', alignItems: 'center' }}>
-          <h3>{dummyData.regdate} </h3>
-        </div>
-      </TitleBox>
       <CompanyBox>
-        <h1>지우컴퍼니</h1>
+        <br></br>
+        <br></br>
+        <h1>{dummyData.company} ({dummyData.state}) </h1>
+
+        <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
+          <h3 style ={{ width:'100%'}}>작성일 : {dummyData.regdate} </h3>
+          
+          
+        </div>
       </CompanyBox>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <CreateButton onClick={handleChangeAddFlag}>
-          {' '}
-          {addFlag ? '항목 닫기' : '항목 추가'}{' '}
+          {addFlag ? '항목 닫기' : '항목 추가'}
         </CreateButton>
       </div>
       {/* 항목추가 눌를때 항목이 생성 */}
-      {addFlag && <MyNoticeAddcomponent />}
+      {addFlag && (
+        <div>
+          <MyNoticeAddcomponent></MyNoticeAddcomponent>
+          <br></br>
+          <div style={{ display: 'flex', justifyContent: 'flex-end ' }}>
+            <CreateButton2>저장</CreateButton2>
+          </div>
+        </div>
+      )}
+      <br></br>
+      <br></br>
 
       {dummy.map((dummy, index) => (
         <div key={index}>
           <TagBox># 지우컴퍼니</TagBox>
+          <br></br>
           <ContentBox id="font_test2">
             {editFlag[index] ? (
               <div>
-              <ContentTitle2 id="font_test2" defaultValue={dummy.title}></ContentTitle2>
-              <ContentContent2  id="font_test2" defaultValue={dummy.content}></ContentContent2>
-            </div>
+                <ContentTitle2
+                  id="font_test2"
+                  defaultValue={dummy.title}
+                ></ContentTitle2>
+                <ContentContent2
+                  id="font_test2"
+                  defaultValue={dummy.content}
+                ></ContentContent2>
+              </div>
             ) : (
-              
               <div>
-              <ContentTitle id="font_test2" >{dummy.title}</ContentTitle>
-              <ContentContent id="font_test2" >{dummy.content}</ContentContent>
-            </div>
+                <ContentTitle id="font_test2">{dummy.title}</ContentTitle>
+                <ContentContent id="font_test2">{dummy.content}</ContentContent>
+              </div>
             )}
 
             {editFlag[index] ? (
@@ -257,6 +295,7 @@ const MyNoticeDetail = () => {
               </ContentEditBox>
             )}
           </ContentBox>
+          <br></br>
         </div>
       ))}
     </Wrapper>
