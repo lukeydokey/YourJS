@@ -70,6 +70,7 @@ const ContentBox = styled.div`
 
 // 내용 적는 textarea
 const ContentContent = styled.textarea`
+  
   box-sizing: border-box;
   background-color: whitesmoke;
   border: none;
@@ -80,6 +81,9 @@ const ContentContent = styled.textarea`
     outline: none;
   }
 `;
+
+
+
 //글자수 세는 div
 const CountBox = styled.div `
   margin-right: 1%;

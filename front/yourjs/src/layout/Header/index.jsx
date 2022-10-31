@@ -36,7 +36,7 @@ const NavBar = styled.div`
 `;
 
 const Header = () => {
-  const [loginState, setLoginState] = useState(false);
+  const [loginState, setLoginState] = useState(true);
 
   return (
     <Wrapper>
