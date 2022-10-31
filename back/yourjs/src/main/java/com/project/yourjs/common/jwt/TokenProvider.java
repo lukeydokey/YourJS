@@ -1,8 +1,13 @@
 package com.project.yourjs.common.jwt;
 
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
+import java.security.Key;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -11,14 +16,19 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.stream.Collectors;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 
 @Component
 public class TokenProvider implements InitializingBean {
@@ -101,19 +111,20 @@ public class TokenProvider implements InitializingBean {
       return new UsernamePasswordAuthenticationToken(principal, token, authorities);
    }
 
-   public boolean validateToken(String token) {
+   public String validateToken(String token) {
       try {
          Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-         return true;
+         return "vaild";
       } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
          logger.info("잘못된 JWT 서명입니다.");
       } catch (ExpiredJwtException e) {
          logger.info("만료된 JWT 토큰입니다.");
+         return "expired";
       } catch (UnsupportedJwtException e) {
          logger.info("지원되지 않는 JWT 토큰입니다.");
       } catch (IllegalArgumentException e) {
          logger.info("JWT 토큰이 잘못되었습니다.");
       }
-      return false;
+      return "denied";
    }
 }
