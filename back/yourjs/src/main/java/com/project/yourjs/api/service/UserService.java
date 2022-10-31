@@ -120,6 +120,7 @@ public class UserService {
         System.out.println(tokenValid);
         if (tokenValid.equals("expired")) {
             System.out.println("refreshToken expired");
+            return null;
         } else {
             if (StringUtils.hasText(jwt) && tokenValid.equals("valid")) {
                 // accessToken 생성
