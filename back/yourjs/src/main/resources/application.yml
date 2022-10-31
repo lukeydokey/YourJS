@@ -1,5 +1,0 @@
-spring:
-  data:
-    mongodb:
-#      uri: mongodb+srv://${env.mongoDB.username}:${env.mongoDB.password}@${env.mongoDB.cluster}.mongodb.net/?retryWrites=true&w=majority
-      uri:mongodb+srv://yourjs:SSAFYE102#yourjs@cluster0.ptuo9ig.mongodb.net/?retryWrites=true&w=majority
