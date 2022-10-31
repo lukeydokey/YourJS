@@ -15,10 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.project.yourjs.api.req.UserRegisterPostReq;
+import com.project.yourjs.api.res.RefreshAccessRes;
 import com.project.yourjs.api.res.UserLoginRes;
 import com.project.yourjs.common.dto.LoginDto;
 import com.project.yourjs.common.dto.RefreshTokenDto;
-import com.project.yourjs.common.dto.TokenDto;
 import com.project.yourjs.common.dto.UserDto;
 import com.project.yourjs.common.exception.DuplicateMemberException;
 import com.project.yourjs.common.exception.NotFoundMemberException;
@@ -36,7 +36,8 @@ public class UserService {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenProvider tokenProvider,
+            AuthenticationManagerBuilder authenticationManagerBuilder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenProvider = tokenProvider;
@@ -70,7 +71,6 @@ public class UserService {
     public ResponseEntity<UserLoginRes> login(LoginDto loginDto) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 loginDto.getUserId(), loginDto.getPassword());
-
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -114,21 +114,23 @@ public class UserService {
     }
 
     @Transactional
-    public String getAccessToken(RefreshTokenDto refreshToken){
+    public String getAccessToken(RefreshTokenDto refreshToken) {
         String jwt = refreshToken.getRefreshToken();
         String tokenValid = tokenProvider.validateRefreshToken(jwt);
         System.out.println(tokenValid);
-        if(tokenValid.equals("expired")){
+        if (tokenValid.equals("expired")) {
             System.out.println("refreshToken expired");
-        }else{
-            if(StringUtils.hasText(jwt) && tokenValid.equals("valid")){
+        } else {
+            if (StringUtils.hasText(jwt) && tokenValid.equals("valid")) {
+                // accessToken 생성
                 Authentication authentication = tokenProvider.getRefreshAuthentication(jwt);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-                System.out.println("refreshToken valid");
-            }else{
-                System.out.println("xxxxxxxxxxxxxxxxx");
+                jwt = tokenProvider.createToken(authentication);
+                return jwt;
+            } else {
+                System.out.println("refreshToken Not Valid");
             }
         }
-        return "test";
+        return null;
     }
 }
