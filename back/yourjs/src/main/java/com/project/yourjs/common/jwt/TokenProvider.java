@@ -111,10 +111,45 @@ public class TokenProvider implements InitializingBean {
       return new UsernamePasswordAuthenticationToken(principal, token, authorities);
    }
 
+   public Authentication getRefreshAuthentication(String refreshToken) {
+      Claims claims = Jwts
+              .parserBuilder()
+              .setSigningKey(refreshKey)
+              .build()
+              .parseClaimsJws(refreshToken)
+              .getBody();
+
+      Collection<? extends GrantedAuthority> authorities =
+         Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+            .map(SimpleGrantedAuthority::new)
+            .collect(Collectors.toList());
+
+      User principal = new User(claims.getSubject(), "", authorities);
+
+      return new UsernamePasswordAuthenticationToken(principal, refreshToken, authorities);
+   }
+
    public String validateToken(String token) {
       try {
          Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-         return "vaild";
+         return "valid";
+      } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+         logger.info("잘못된 JWT 서명입니다.");
+      } catch (ExpiredJwtException e) {
+         logger.info("만료된 JWT 토큰입니다.");
+         return "expired";
+      } catch (UnsupportedJwtException e) {
+         logger.info("지원되지 않는 JWT 토큰입니다.");
+      } catch (IllegalArgumentException e) {
+         logger.info("JWT 토큰이 잘못되었습니다.");
+      }
+      return "denied";
+   }
+
+   public String validateRefreshToken(String refreshToken) {
+      try {
+         Jwts.parserBuilder().setSigningKey(refreshKey).build().parseClaimsJws(refreshToken);
+         return "valid";
       } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
          logger.info("잘못된 JWT 서명입니다.");
       } catch (ExpiredJwtException e) {

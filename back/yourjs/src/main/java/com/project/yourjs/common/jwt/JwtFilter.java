@@ -37,7 +37,7 @@ public class JwtFilter extends GenericFilterBean {
       if (tokenValid.equals("expired")) {
          httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "accessTokenExpired");
       } else {
-         if (StringUtils.hasText(jwt) && tokenValid.equals("vaild")) {
+         if (StringUtils.hasText(jwt) && tokenValid.equals("valid")) {
             Authentication authentication = tokenProvider.getAuthentication(jwt);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             logger.debug("Security Context에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), requestURI);

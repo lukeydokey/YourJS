@@ -12,9 +12,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.project.yourjs.api.req.UserRegisterPostReq;
+import com.project.yourjs.api.res.UserLoginRes;
 import com.project.yourjs.common.dto.LoginDto;
+import com.project.yourjs.common.dto.RefreshTokenDto;
 import com.project.yourjs.common.dto.TokenDto;
 import com.project.yourjs.common.dto.UserDto;
 import com.project.yourjs.common.exception.DuplicateMemberException;
@@ -64,7 +67,7 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<TokenDto> login(LoginDto loginDto) {
+    public ResponseEntity<UserLoginRes> login(LoginDto loginDto) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 loginDto.getUserId(), loginDto.getPassword());
 
@@ -77,7 +80,7 @@ public class UserService {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + refreshToken);
-        return new ResponseEntity<>(new TokenDto(jwt, refreshToken), httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(new UserLoginRes(jwt, refreshToken), httpHeaders, HttpStatus.OK);
     }
 
     @Transactional(readOnly = true)
@@ -108,5 +111,24 @@ public class UserService {
             return false;
         else
             return true;
+    }
+
+    @Transactional
+    public String getAccessToken(RefreshTokenDto refreshToken){
+        String jwt = refreshToken.getRefreshToken();
+        String tokenValid = tokenProvider.validateRefreshToken(jwt);
+        System.out.println(tokenValid);
+        if(tokenValid.equals("expired")){
+            System.out.println("refreshToken expired");
+        }else{
+            if(StringUtils.hasText(jwt) && tokenValid.equals("valid")){
+                Authentication authentication = tokenProvider.getRefreshAuthentication(jwt);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                System.out.println("refreshToken valid");
+            }else{
+                System.out.println("xxxxxxxxxxxxxxxxx");
+            }
+        }
+        return "test";
     }
 }

@@ -3,6 +3,7 @@ package com.project.yourjs.api.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,14 +11,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.yourjs.api.req.NicknameDupleReq;
 import com.project.yourjs.api.req.UserIdDupleReq;
 import com.project.yourjs.api.req.UserRegisterPostReq;
+import com.project.yourjs.api.res.UserLoginRes;
 import com.project.yourjs.api.service.UserService;
 import com.project.yourjs.common.dto.LoginDto;
+import com.project.yourjs.common.dto.RefreshTokenDto;
 import com.project.yourjs.common.dto.TokenDto;
 import com.project.yourjs.common.dto.UserDto;
 
@@ -66,10 +70,8 @@ public class UserController {
         @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@Valid @RequestBody LoginDto loginDto) {
+    public ResponseEntity<UserLoginRes> login(@Valid @RequestBody LoginDto loginDto) {
         return userService.login(loginDto);
-
-        // return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
     }
 
     @Operation(summary = "아이디 중복 확인")
@@ -120,5 +122,12 @@ public class UserController {
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<UserDto> getUserInfo(@PathVariable String userId) {
         return ResponseEntity.ok(userService.getUserWithAuthorities(userId));
+    }
+
+    @GetMapping("/refresh")
+    public String getAccessToken(@RequestHeader HttpHeaders headers) {
+        RefreshTokenDto refreshToken = new RefreshTokenDto();
+        refreshToken.setRefreshToken(headers.get("authorization").get(0).split(" ")[1]);
+        return userService.getAccessToken(refreshToken);
     }
 }
