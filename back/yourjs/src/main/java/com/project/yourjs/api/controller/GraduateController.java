@@ -87,4 +87,18 @@ public class GraduateController {
         return ResponseEntity.ok(hasDeleted);
     }
 
+//    @Operation(summary = "학력사항 관련 파일 업로드", description = "유저의 [학력사항] 관련 파일을 업로드한다")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = GraduateRes.class))),
+//            @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+//            @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+//            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+//    })
+//    @PostMapping("file")
+//    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+//    public ResponseEntity<?> uploadFile(Authentication authentication, @Valid @RequestBody GraduatePostReq graduatePostReq){
+//        String userId = authentication.getName();
+//        return ResponseEntity.ok(graduateService.createGraduate(userId, graduatePostReq));
+//    }
+
 }
