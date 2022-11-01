@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +24,9 @@ import com.project.yourjs.api.req.NicknameDupleReq;
 import com.project.yourjs.api.req.UserIdDupleReq;
 import com.project.yourjs.api.req.UserRegisterPostReq;
 import com.project.yourjs.api.res.RefreshAccessRes;
+import com.project.yourjs.api.res.UserDetailInfoRes;
 import com.project.yourjs.api.res.UserLoginRes;
+import com.project.yourjs.api.res.UserSimpleInfoRes;
 import com.project.yourjs.api.service.UserService;
 import com.project.yourjs.common.dto.LoginDto;
 import com.project.yourjs.common.dto.RefreshTokenDto;
@@ -151,5 +154,41 @@ public class UserController {
             response.sendRedirect("/api/user");
 
         return new ResponseEntity<>(refreshAccessRes, httpHeaders, HttpStatus.OK);
+    }
+
+    @Operation(summary = "기본정보 조회", description = "기본 정보를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = UserSimpleInfoRes.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+    })
+    @GetMapping("/simple")
+    public ResponseEntity<UserSimpleInfoRes> getSimpleInfo(Authentication authentication){
+        return ResponseEntity.ok(userService.getSimpleInfo(authentication.getName()));
+    }
+
+    @Operation(summary = "세부정보 조회", description = "세부 정보를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = UserDetailInfoRes.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+    })
+    @GetMapping("/detail")
+    public ResponseEntity<UserDetailInfoRes> getDetailInfo(Authentication authentication){
+        return ResponseEntity.ok(userService.getDetailInfo(authentication.getName()));
+    }
+
+    @Operation(summary = "카카오 로그인", description = "카카오 로그인 API를 이용하여 로그인 합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = RefreshAccessRes.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+    })
+    @PostMapping("/kakao")
+    public String kakaoLogin(){
+        return null;
     }
 }
