@@ -170,4 +170,9 @@ public class UserService {
         }
         return userDetailInfoRes;
     }
+
+    @Transactional
+    public void deleteUser(String userId){
+        userRepository.deleteByUserId(userId);
+    }
 }

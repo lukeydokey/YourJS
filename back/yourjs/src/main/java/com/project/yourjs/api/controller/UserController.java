@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -178,6 +179,18 @@ public class UserController {
     @GetMapping("/detail")
     public ResponseEntity<UserDetailInfoRes> getDetailInfo(Authentication authentication){
         return ResponseEntity.ok(userService.getDetailInfo(authentication.getName()));
+    }
+
+    @Operation(summary = "회원 탈퇴", description = "회원 탈퇴를 합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = UserDetailInfoRes.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+    })
+    @DeleteMapping
+    public void deleteUser(Authentication authentication){
+        userService.deleteUser(authentication.getName());
     }
 
     @Operation(summary = "카카오 로그인", description = "카카오 로그인 API를 이용하여 로그인 합니다.")
