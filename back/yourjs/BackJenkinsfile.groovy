@@ -27,7 +27,7 @@ podTemplate(label: 'builder',
         ]) {
     node('builder') {
         stage('Start'){
-            notifyStarted(${DISCORD_CHANNEL});
+            notifyStarted(DISCORD_CHANNEL);
         }
         stage('Checkout') {
             checkout scm   // gitlab으로부터 소스 다운
@@ -78,7 +78,7 @@ podTemplate(label: 'builder',
                     sh "kubectl apply -f ./k8s/yourjs-back-ingress.yaml"
                 }
             }
-            notifyResult(${DISCORD_CHANNEL});
+            notifyResult(DISCORD_CHANNEL);
         }
     }
 }
