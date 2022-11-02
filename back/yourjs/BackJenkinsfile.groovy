@@ -40,7 +40,7 @@ podTemplate(label: 'builder',
                         usernameVariable: 'USERNAME',
                         passwordVariable: 'PASSWORD')]) {
                     /* 도커 빌드를 수행한다 */
-                    sh "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAGS} ./back/yourjs"
+                    sh "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAGS}-back ./back/yourjs"
                     sh "docker login -u ${USERNAME} -p ${PASSWORD}"
                     sh "docker push ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAGS}-back"
                 }
