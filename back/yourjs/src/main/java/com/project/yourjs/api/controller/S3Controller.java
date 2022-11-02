@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +26,8 @@ public class S3Controller {
     private final AmazonS3Client amazonS3Client;
 
     @PostMapping()
-    public String uploadFile(@RequestPart MultipartFile multipartFile) throws IOException {
+    public String uploadFile(Authentication authentication, @RequestPart(value = "file", required = false) MultipartFile multipartFile) throws IOException {
+//        https://minholee93.tistory.com/entry/Spring-Json-with-MultipartFile 참고
         s3Uploader.uploadFiles(multipartFile, "testhibeen1");
         return "확인해보세요!";
     }

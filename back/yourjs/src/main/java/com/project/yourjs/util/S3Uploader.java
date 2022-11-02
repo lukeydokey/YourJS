@@ -18,7 +18,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class S3Uploader {
     private final AmazonS3Client amazonS3Client;
-    @Value("${cloud.aws.s3.bucket}")
+//    @Value("${env.s3.bucketName}")
+    @Value("yourjs-bucket")
     private String bucket;
 
     public String uploadFiles(MultipartFile multipartFile, String dirName) throws IOException {
