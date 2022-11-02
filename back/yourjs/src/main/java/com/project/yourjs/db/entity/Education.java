@@ -1,8 +1,8 @@
 package com.project.yourjs.db.entity;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import com.project.yourjs.common.dto.EducationDto;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
@@ -17,15 +17,18 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "education")
 public class Education {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "edu_seq")
     private Long eduSeq;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, targetEntity = User.class)
     @JoinColumn(name = "user_seq")
     private User user;
 
@@ -62,4 +65,18 @@ public class Education {
     @LastModifiedDate
     @Column
     private LocalDateTime modDtm;
+
+    public EducationDto toDto(){
+        return EducationDto.builder()
+                .eduSeq(this.eduSeq)
+                .eduName(this.eduName)
+                .eduContents(this.eduContents)
+                .eduInstitution(this.eduInstitution)
+                .eduTime(this.eduTime)
+                .startDate(this.startDate)
+                .endDate(this.endDate)
+                .completionState(this.completionState)
+                .build();
+    }
+
 }

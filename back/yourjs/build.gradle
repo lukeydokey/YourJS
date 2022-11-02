@@ -68,6 +68,8 @@ dependencies {
     implementation 'org.springframework.security:spring-security-oauth2-jose'
     // implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
+    // MongoDB
+    implementation ('org.springframework.boot:spring-boot-starter-data-mongodb')
 }
 
 tasks.named('test') {
