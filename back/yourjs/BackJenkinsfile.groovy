@@ -31,7 +31,7 @@ podTemplate(label: 'builder',
         }
         stage('Checkout') {
             checkout scm   // gitlab으로부터 소스 다운
-            sh "cp -r /etc/spring/properties ./src/main/resources/properties"
+            sh "cp -r /etc/spring/properties .back/yourjs/src/main/resources/properties"
         }
         stage('Docker build') {
             container('docker') {
@@ -70,12 +70,12 @@ podTemplate(label: 'builder',
                     /*sh "echo ${VERSION}"
                     sh "sed -i.bak 's#VERSION_STRING#${VERSION}#' ./k8s/k8s-deployment.yaml"*/
                     sh "echo ${DATE}"
-                    sh "sed -i.bak 's#DATE_STRING#${DATE}#' ./k8s/yourjs-back-deployment.yaml"
+                    sh "sed -i.bak 's#DATE_STRING#${DATE}#' .back/yourjs/k8s/yourjs-back-deployment.yaml"
 
                     /* yaml파일로 배포를 수행한다 */
-                    sh "kubectl apply -f ./k8s/yourjs-back-deployment.yaml -n ${NAMESPACE}"
-                    sh "kubectl apply -f ./k8s/yourjs-back-service.yaml -n ${NAMESPACE}"
-                    sh "kubectl apply -f ./k8s/yourjs-back-ingress.yaml"
+                    sh "kubectl apply -f .back/yourjs/k8s/yourjs-back-deployment.yaml -n ${NAMESPACE}"
+                    sh "kubectl apply -f .back/yourjs/k8s/yourjs-back-service.yaml -n ${NAMESPACE}"
+                    sh "kubectl apply -f .back/yourjs/k8s/yourjs-back-ingress.yaml"
                 }
             }
             notifyResult(DISCORD_CHANNEL);
