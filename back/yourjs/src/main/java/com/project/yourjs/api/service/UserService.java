@@ -15,7 +15,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.project.yourjs.api.req.ChangeUserInfoReq;
+import com.project.yourjs.api.req.ChangeUserLevelReq;
+import com.project.yourjs.api.req.PassChangeReq;
 import com.project.yourjs.api.req.UserRegisterPostReq;
+import com.project.yourjs.api.res.PassChangeRes;
 import com.project.yourjs.api.res.UserDetailInfoRes;
 import com.project.yourjs.api.res.UserLoginRes;
 import com.project.yourjs.api.res.UserSimpleInfoRes;
@@ -169,6 +173,43 @@ public class UserService {
             userDetailInfoRes.setInfoLevel(user.getInfoLevel());
         }
         return userDetailInfoRes;
+    }
+
+    @Transactional
+    public PassChangeRes passwordChange(String userId, PassChangeReq passChangeReq){
+        PassChangeRes passChangeRes = new PassChangeRes();
+        passChangeRes.setType("fail");
+        Optional<User> oUser = userRepository.findByUserId(userId);
+        if(oUser.isPresent()){
+            User user = oUser.get();
+            if(passwordEncoder.matches(passChangeReq.getCurPassword(), user.getPassword())){
+                user.setPassword(passwordEncoder.encode(passChangeReq.getNewPassword()));
+                userRepository.save(user);
+                passChangeRes.setType("success");
+            }
+        }
+        return passChangeRes;
+    }
+
+    @Transactional
+    public void changeUserInfo(String userId, ChangeUserInfoReq changeUserInfoReq){
+        Optional<User> oUser = userRepository.findByUserId(userId);
+        if(oUser.isPresent()){
+            User user = oUser.get();
+            user.setEmail(changeUserInfoReq.getEmail());
+            user.setNickname(changeUserInfoReq.getNickname());
+            userRepository.save(user);
+        }
+    }
+
+    @Transactional
+    public void changeUserLevel(String userId, ChangeUserLevelReq changeUserLevelReq){
+        Optional<User> oUser = userRepository.findByUserId(userId);
+        if(oUser.isPresent()){
+            User user = oUser.get();
+            user.setInfoLevel(changeUserLevelReq.getType());
+            userRepository.save(user);
+        }
     }
 
     @Transactional

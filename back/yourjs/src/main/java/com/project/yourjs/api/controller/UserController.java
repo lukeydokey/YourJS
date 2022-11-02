@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,9 +22,13 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.yourjs.api.req.ChangeUserInfoReq;
+import com.project.yourjs.api.req.ChangeUserLevelReq;
 import com.project.yourjs.api.req.NicknameDupleReq;
+import com.project.yourjs.api.req.PassChangeReq;
 import com.project.yourjs.api.req.UserIdDupleReq;
 import com.project.yourjs.api.req.UserRegisterPostReq;
+import com.project.yourjs.api.res.PassChangeRes;
 import com.project.yourjs.api.res.RefreshAccessRes;
 import com.project.yourjs.api.res.UserDetailInfoRes;
 import com.project.yourjs.api.res.UserLoginRes;
@@ -179,6 +184,42 @@ public class UserController {
     @GetMapping("/detail")
     public ResponseEntity<UserDetailInfoRes> getDetailInfo(Authentication authentication){
         return ResponseEntity.ok(userService.getDetailInfo(authentication.getName()));
+    }
+
+    @Operation(summary = "비밀번호 변경", description = "기존 비밀번호 확인 후 변경합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = PassChangeReq.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+    })
+    @PatchMapping("/passchange")
+    public ResponseEntity<PassChangeRes> passwordChange (Authentication authentication, @RequestBody PassChangeReq passChangeReq) {
+        return ResponseEntity.ok(userService.passwordChange(authentication.getName(), passChangeReq));
+    }
+
+    @Operation(summary = "계정정보 변경", description = "계정정보를 변경합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = ChangeUserInfoReq.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+    })
+    @PatchMapping("/infochange")
+    public void changeUserInfo(Authentication authentication, @RequestBody ChangeUserInfoReq changeUserInfoReq){
+        userService.changeUserInfo(authentication.getName(), changeUserInfoReq);
+    }
+
+    @Operation(summary = "공개범위 변경", description = "계정의 공개범위를 변경합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = ChangeUserLevelReq.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+    })
+    @PatchMapping("/levelchange")
+    public void changeUserLevel(Authentication authentication, @RequestBody ChangeUserLevelReq changeUserLevelReq){
+        userService.changeUserLevel(authentication.getName(), changeUserLevelReq);
     }
 
     @Operation(summary = "회원 탈퇴", description = "회원 탈퇴를 합니다.")
