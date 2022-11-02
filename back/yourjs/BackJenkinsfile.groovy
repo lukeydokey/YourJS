@@ -10,9 +10,13 @@ def DISCORD_CHANNEL = "https://discord.com/api/webhooks/1037265817961762867/1F_a
 def notifyStarted(discord_channel) {
     discordSend (webhookURL: "${discord_channel}", title: "${JOB_NAME}", result: "SUCCESS" , link: "${BUILD_URL}", description: "Build Started")
 }
-/* Discord 결과 알람 함수 */
-def notifyResult(discord_channel) {
-    discordSend (webhookURL: "${discord_channel}", title: "${JOB_NAME}", result: currentBuild.currentResult, link: "${BUILD_URL}", description: "Build ${currentBuild.currentResult}")
+/* Discord 성공 알람 함수 */
+def notifySuccess(discord_channel) {
+    discordSend (webhookURL: "${discord_channel}", title: "${JOB_NAME}", result: "SUCCESS", link: "${BUILD_URL}", description: "Build Success")
+}
+/* Discord 실패 알람 함수 */
+def notifyFailure(discord_channel) {
+    discordSend (webhookURL: "${discord_channel}", title: "${JOB_NAME}", result: "FAILURE", link: "${BUILD_URL}", description: "Build Failed")
 }
 
 podTemplate(label: 'builder',
@@ -22,7 +26,7 @@ podTemplate(label: 'builder',
         ],
         volumes: [
                 hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
-                hostPathVolume(mountPath: '/etc/spring/env', hostPath: '/home/ubuntu/env'),
+                hostPathVolume(mountPath: '/etc/spring/properties', hostPath: '/home/ubuntu/properties'),
                 //hostPathVolume(mountPath: '/usr/bin/docker', hostPath: '/usr/bin/docker')
         ]) {
     node('builder') {
@@ -32,7 +36,7 @@ podTemplate(label: 'builder',
         try {
             stage('Checkout') {
                 checkout scm   // gitlab으로부터 소스 다운
-                sh "cp /etc/spring/env/env.properties ./back/yourjs/src/main/resources/properties/env.properties"
+                sh "cp -r /etc/spring/properties ./back/yourjs/src/main/resources/properties"
             }
             stage('Docker build') {
                 container('docker') {
@@ -79,10 +83,10 @@ podTemplate(label: 'builder',
                         sh "kubectl apply -f ./back/yourjs/k8s/yourjs-back-ingress.yaml"
                     }
                 }
-
+                notifySuccess(DISCORD_CHANNEL);
             }
         }catch(Exception e){
-            notifyResult(DISCORD_CHANNEL);
+            notifyFailure(DISCORD_CHANNEL);
         }
     }
 }
