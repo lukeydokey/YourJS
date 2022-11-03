@@ -8,6 +8,4 @@ RUN yarn install
 COPY . /usr/src/app
 RUN yarn build
 
-EXPOSE 3000
-
 CMD ["yarn","start"]
