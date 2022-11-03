@@ -1,9 +1,9 @@
 import React from 'react'
 
-const personaledit = () => {
+const PersonalEdit = () => {
   return (
-    <div>personaledit</div>
+    <div>PersonalEdit</div>
   )
 }
 
-export default personaledit
+export default PersonalEdit

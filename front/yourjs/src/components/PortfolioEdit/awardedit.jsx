@@ -1,9 +1,9 @@
 import React from 'react'
 
-const awardedit = () => {
+const AwardEdit = () => {
   return (
-    <div>awardedit</div>
+    <div>AwardEdit</div>
   )
 }
 
-export default awardedit
+export default AwardEdit

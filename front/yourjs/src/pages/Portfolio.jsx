@@ -31,11 +31,11 @@ const Box = styled.div`
 `;
 
 const UpdatePofol = styled.div`
-  align-self: flex-end;
-  margin-right: 5%;
   margin-top: 5%;
   font-size: 1.5rem;
-  width: fit-content;
+  width: 100%;
+  text-align: end;
+  margin-right: 10%;
 `
 
 export { Wrapper, Box }
@@ -45,9 +45,9 @@ const Portfolio = () => {
     <Wrapper>
       <Wrapper>
         <Box>
-          <Link to = 'edit'>
-            <UpdatePofol>Edit</UpdatePofol>
-          </Link>
+          <UpdatePofol>
+            <Link to = 'edit' style={{textDecoration:"none", color:"#8fb4ec"}}>포폴 수정!</Link>
+          </UpdatePofol>
           <Personal></Personal>
           <Military></Military>
           <Education></Education>

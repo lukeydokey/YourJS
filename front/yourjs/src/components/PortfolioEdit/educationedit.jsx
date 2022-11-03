@@ -1,9 +1,9 @@
 import React from 'react'
 
-const educationedit = () => {
+const EducationEdit = () => {
   return (
-    <div>educationedit</div>
+    <div>EducationEdit</div>
   )
 }
 
-export default educationedit
+export default EducationEdit

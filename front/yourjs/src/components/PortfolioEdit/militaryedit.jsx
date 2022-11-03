@@ -1,9 +1,9 @@
 import React from 'react'
 
-const militaryedit = () => {
+const MilitaryEdit = () => {
   return (
-    <div>militaryedit</div>
+    <div>MilitaryEdit</div>
   )
 }
 
-export default militaryedit
+export default MilitaryEdit

@@ -1,33 +1,8 @@
 import React from 'react'
 import styled from 'styled-components';
 import { useState } from 'react';
-import Project from '../Portfolio/project';
-
-const Box = styled.div`
-  margin-bottom: 2rem;
-  height: fit-content;
-`
-
-const BoxName = styled.div`
-  display: flex;
-  height: 50px;
-`
-
-const BoxTitle = styled.h4`
-  width: 20%;
-  text-align: center;
-`
-
-const BoxInput = styled.input`
-  border: none;
-  width: 70%;
-  border-bottom: 3px solid gray;
-  margin-top: 10px;
-  margin-left: 30px;
-  :focus {
-    outline: none;
-  }
-`
+import ProjectEditComponent from './ProjectEditComponent';
+import { Container, ContentTitle, ContentSet, Content, LeftBox, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr} from '../Portfolio/personal';
 
 const PlusButton = styled.button`
   border-radius: 1rem;
@@ -35,63 +10,74 @@ const PlusButton = styled.button`
   cursor: pointer;
 `;
 
-const WriteForm = () => {
-  return (
-    <Box>
-      <BoxName>
-        <BoxTitle>프로젝트명</BoxTitle>
-        <BoxInput placeholder='프로젝트 명을 입력해 주세요'></BoxInput>
-      </BoxName>
-      <BoxName>
-        <BoxTitle>시작일</BoxTitle>
-        <BoxInput placeholder='프로젝트 시작일을 입력해 주세요'></BoxInput>
-      </BoxName>
-      <BoxName>
-        <BoxTitle>종료일</BoxTitle>
-        <BoxInput placeholder='프로젝트 종료일을 입력해 주세요'></BoxInput>
-      </BoxName>
-      <BoxName>
-        <BoxTitle>소속명</BoxTitle>
-        <BoxInput placeholder='프로젝트 소속명을 입력해 주세요'></BoxInput>
-      </BoxName>
-      <BoxName>
-        <BoxTitle>사용기술</BoxTitle>
-        <BoxInput placeholder='프로젝트 사용기술 입력해 주세요'></BoxInput>
-      </BoxName>
-      <BoxName>
-        <BoxTitle>내용</BoxTitle>
-        <BoxInput placeholder='프로젝트 내용을 입력해 주세요'></BoxInput>
-      </BoxName>
-      <BoxName>
-        <BoxTitle>파일</BoxTitle>
-        <BoxInput placeholder='프로젝트 파일을 업로드해 주세요'></BoxInput>
-      </BoxName>
-      <br/><hr/>  
-    </Box>
-  )
-}
+const ChangeButton = styled.button`
+  width: 4rem;
+  height: 2rem;
+  cursor: pointer;
+  margin: 0.5rem;
+`
+
+const DelButton = styled.button`
+  width: 4rem;
+  height: 2rem;
+  cursor: pointer;
+  margin: 0.5rem;
+`
+
+const dataArr = [
+  { title: '츄애니원', group: '삼성 청년 SW 아카데미', skill: 'SpringBoot', procontent: '애니메이션 최고야...', start: '2021-05-01', end: '2021-07-29'},
+  { title: 'Pecommend', group: '삼성 청년 SW 아카데미', skill: 'React', procontent: '향수 최고야...', start: '2021-01-01', end: '2021-04-29'}
+];
 
 const ProjectEdit = () => {
-  const [list, setList] = useState(['']);
-  const onClick = () => {
-    const a = [...list];
-    a.unshift({ title: 'ba', content: 'b' });
-    setList(a);
-  };
+  const [buttonFlag,setButtonFlag] = useState(false)
+
+  const handleOnclick = () => {
+    setButtonFlag(!buttonFlag)
+  }
 
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'flex-end' , marginTop:"1rem" }}>
-        <PlusButton onClick={onClick}>➕</PlusButton>
+        <PlusButton onClick={handleOnclick}>{buttonFlag? '➖': '➕'}</PlusButton>
       </div>
-      {list.map((li, index) => (
-        <WriteForm key={index}></WriteForm>
-      ))}
+      {buttonFlag && (<ProjectEditComponent ></ProjectEditComponent>)}
+      <br/><br/>
+      <Container>
+        <ContentTitle>📜 프로젝트</ContentTitle>
+        <ContentSet>
+          <Hr></Hr>
+          {dataArr.map((el, index) => (
+            <Content key={index}>
+              <LeftBox>{el.start}<br/>~ {el.end}<br/><br/>
+              <ChangeButton>수정</ChangeButton>
+              <DelButton>삭제</DelButton></LeftBox>
+              <CenterBox></CenterBox>
+              <RightBoxes>
+                <RightBox>
+                  <RightBoxTitle>프로젝트명</RightBoxTitle>
+                  <RightBoxContent>{el.title}</RightBoxContent>
+                </RightBox>
+                <RightBox>
+                  <RightBoxTitle>소속명</RightBoxTitle>
+                  <RightBoxContent>{el.where}</RightBoxContent>
+                </RightBox>
+                <RightBox>
+                  <RightBoxTitle>사용기술</RightBoxTitle>
+                  <RightBoxContent>{el.skill}</RightBoxContent>
+                </RightBox>
+                <RightBox>
+                  <RightBoxTitle>내용</RightBoxTitle>
+                  <RightBoxContent>{el.procontent}</RightBoxContent>
+                </RightBox>
+                <RightBox>파일</RightBox>
+              </RightBoxes>
+            </Content>
+            ))}
+          </ContentSet>
+        </Container>
     </div>
   )
 }
 
 export default ProjectEdit
-
-
-// 프로젝트명, 프로젝트기간, 소속명, 사용기술, 내용, 파일

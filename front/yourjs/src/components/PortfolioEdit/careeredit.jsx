@@ -1,9 +1,9 @@
 import React from 'react'
 
-const careeredit = () => {
+const CareerEdit = () => {
   return (
-    <div>careeredit</div>
+    <div>CareerEdit</div>
   )
 }
 
-export default careeredit
+export default CareerEdit

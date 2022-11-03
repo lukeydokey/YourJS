@@ -13,7 +13,9 @@ const Container = styled.div`
 const ContentTitle = styled.div`
   width: 20%;
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+  text-align: center;
+  font-family: 'Pretendard-Regular';
 `
 
 const ContentSet = styled.div`
@@ -37,6 +39,7 @@ const LeftBox = styled.div`
   text-align: center;
   word-break: break-all;
   font-weight: bold;
+  font-family: 'Pretendard-Regular';
 `;
 
 const CenterBox = styled.div`
@@ -52,6 +55,12 @@ const RightBoxes = styled.div`
 const RightBox = styled.div`
   margin-bottom: 0.5rem;
   display: flex;
+  font-family: 'InfinitySans-RegularA1';
+  font-weight: 200;
+  color: rgba(0, 0, 0, 0.55);
+  /* id : font_pretendard; */
+  /* font-family: 'Pretendard Variable'; */
+  /* font-family: 'GmarketSansMedium'; */
 `;
 
 const RightBoxTitle = styled.div`

@@ -1,9 +1,9 @@
 import React from 'react'
 
-const trainingedit = () => {
+const TrainingEdit = () => {
   return (
-    <div>trainingedit</div>
+    <div>TrainingEdit</div>
   )
 }
 
-export default trainingedit
+export default TrainingEdit

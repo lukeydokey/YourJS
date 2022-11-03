@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import { Wrapper } from './Portfolio';
 import styled from 'styled-components';
-import Personal from '../components/Portfolio/personal';
-import Military from '../components/Portfolio/military';
-import Education from '../components/Portfolio/education';
-import Training from '../components/Portfolio/training';
-import Certificate from '../components/Portfolio/certificate';
-import Award from '../components/Portfolio/award';
-import Career from '../components/Portfolio/career';
-import ProjectEdit from '../components/PortfolioEdit/projectedit';
+import PersonalEdit from '../components/PortfolioEdit/PersonalEdit';
+import MilitaryEdit from '../components/PortfolioEdit/MilitaryEdit';
+import EducationEdit from '../components/PortfolioEdit/EducationEdit';
+import TrainingEdit from '../components/PortfolioEdit/TrainingEdit';
+import CertificateEdit from '../components/PortfolioEdit/CertificateEdit';
+import AwardEdit from '../components/PortfolioEdit/AwardEdit';
+import CareerEdit from '../components/PortfolioEdit/CareerEdit';
+import ProjectEdit from '../components/PortfolioEdit/ProjectEdit';
 import Sidebar from '../components/Portfolio/sidebar';
 
 const Box = styled.div`
@@ -23,9 +23,8 @@ const Box = styled.div`
 `;
 
 const TabMenu = styled.ul`
-  background-color: #dcdcdc;
-  color: rgb(232, 234, 237);
-  font-weight: bold;
+  background-color: #d4e1f5;
+  color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -38,12 +37,14 @@ const TabMenu = styled.ul`
   margin-left: 83%; 
   user-select: none;
   cursor: pointer;
+  font-family: 'GmarketSansMedium';
+  border-radius: 1rem;
 
   .submenu {
   // 기본 Tabmenu 에 대한 CSS를 구현
-    width: 50%;
+    width: 70%;
     padding: 1rem;
-    font-size: 1rem;
+    font-size: 1.3rem;
     transition: 0.5s;
     border-radius: 1rem;
     text-align: center;
@@ -70,14 +71,13 @@ const BoxContent = styled.div`
 const PortfolioEdit = () => {
     const [openTab, setOpenTab] = useState(1);
     const menuArr = [
-        // { name: 'Tab1', content: 'Tab menu ONE' },
-        { name: '인적사항', content: <Personal/> },
-        { name: '병역사항', content: <Military/> },
-        { name: '학력사항', content: 'Tab menu THREE' },
-        { name: '교육사항', content: 'Tab menu THREE' },
-        { name: '자격증/어학', content: 'Tab menu THREE' },
-        { name: '수상내역', content: 'Tab menu THREE' },
-        { name: '커리어', content: 'Tab menu THREE' },
+        { name: '인적사항', content: <PersonalEdit/> },
+        { name: '병역사항', content: <MilitaryEdit/> },
+        { name: '학력사항', content: <EducationEdit/> },
+        { name: '교육사항', content: <TrainingEdit/> },
+        { name: '자격증 / 어학', content: <CertificateEdit/> },
+        { name: '수상내역', content: <AwardEdit/> },
+        { name: '커리어', content: <CareerEdit/> },
         { name: '프로젝트', content: <ProjectEdit/> },
     ];
     const selectMenuHandler = (index) => {
