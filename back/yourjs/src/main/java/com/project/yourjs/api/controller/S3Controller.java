@@ -28,7 +28,7 @@ public class S3Controller {
     @PostMapping()
     public String uploadFile(Authentication authentication, @RequestPart(value = "file", required = false) MultipartFile multipartFile) throws IOException {
 //        https://minholee93.tistory.com/entry/Spring-Json-with-MultipartFile 참고
-        s3Uploader.uploadFiles(multipartFile, "testhibeen1");
+        System.out.println(s3Uploader.uploadFiles(multipartFile, "testhibeen1"));
         return "확인해보세요!";
     }
 }
