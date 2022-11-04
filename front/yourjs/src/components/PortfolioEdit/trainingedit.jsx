@@ -3,7 +3,7 @@ import React from 'react'
 const TrainingEdit = () => {
   return (
     <div>TrainingEdit
-      To do
+      To dodddddd
     </div>
   )
 }

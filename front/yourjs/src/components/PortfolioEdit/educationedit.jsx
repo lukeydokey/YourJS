@@ -3,7 +3,7 @@ import React from 'react'
 const EducationEdit = () => {
   return (
     <div>EducationEdit
-      To do
+      To dodd
     </div>
   )
 }
