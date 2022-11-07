@@ -4,11 +4,11 @@ kind: Deployment
 metadata:
   name: yourjs-front-deployment
 spec:
-  replicas: 3
+  replicas: 4
   strategy:
     rollingUpdate:
       maxSurge: 2
-      maxUnavailable: 2
+      maxUnavailable: 1
     type: RollingUpdate
   selector:
     matchLabels:
