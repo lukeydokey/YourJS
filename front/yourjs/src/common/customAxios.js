@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { SERVER_IP, apis } from './apis';
 import { getCookie, setCookie } from './cookie';
+import { useNavigate } from 'react-router-dom';
 
 // axios에 기본 BASE URL 설정
 const axiosInstance = axios.create({
@@ -30,6 +31,7 @@ axiosInstance.interceptors.response.use(
   async function (error) {
     console.log('Interceptor 호출 시작==============');
     const originalRequest = error.config;
+    console.log(error.response.status);
     // 토른 만료 에러 처리
     if (error.response.status === 401) {
       console.log('토큰만료 에러 intercepter start');
@@ -45,26 +47,26 @@ axiosInstance.interceptors.response.use(
         )
         .then(response => {
           sessionStorage.setItem('accessToken', response.data.accessToken);
-          console.log(response);
+          console.log('토큰만료 에러 intercepter end');
+          return axiosInstance(originalRequest);
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          if (err.response.status === 405) {
+            alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+            setCookie('refresh_Token', '');
+
+            localStorage.removeItem('autoLogin');
+
+            sessionStorage.setItem('loginState', false);
+            sessionStorage.removeItem('accessToken');
+            sessionStorage.removeItem('nickname');
+
+            useNavigate('/');
+          }
+        });
       // .then(axiosInstance(originalRequest));
-      console.log('토큰만료 에러 intercepter end');
-      return axiosInstance(originalRequest);
-    }
-    // 리프레시 토큰 만료 에러 처리
-    else if (error.response.status === 405) {
-      setCookie('refresh_Token', '');
-
-      localStorage.removeItem('autoLogin');
-
-      sessionStorage.setItem('loginState', false);
-      sessionStorage.removeItem('accessToken');
-      sessionStorage.removeItem('nickname');
-
-      setRefreshFlag(!refreshFlag);
-
-      navigate('/');
+      // console.log('토큰만료 에러 intercepter end');
+      // return axiosInstance(originalRequest);
     }
     // console.log('interceptor 재송신 시작');
     // console.log(originalRequest);
