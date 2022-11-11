@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import MyNoticeAdd from './MyNoticeAdd.jsx';
 import '../../App.css';
 import MyNoticeAddcomponent from './MyNoticeAddcomponent.jsx';
-import { useLocation} from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
 import MyNoticePlus from './MyNoticePlus.jsx';
@@ -56,8 +56,8 @@ const CreateButton = styled.button`
   height: 60px;
   background-color: ${colors.bsColor2};
   border-radius: 10px;
-  border : 1px solid  ${colors.bsColor3};
-  color : rgba(0, 0, 0, 0.9);
+  border: 1px solid ${colors.bsColor3};
+  color: rgba(0, 0, 0, 0.9);
   cursor: pointer;
 `;
 
@@ -197,7 +197,6 @@ const ResultTag = styled.div`
   box-shadow: 0.1rem 0.1rem 0.1rem gray; ;
 `;
 
-
 const UrlInput = styled.input`
   margin-left: 50px;
   width: 150px;
@@ -305,6 +304,8 @@ const MyNoticeDetail = () => {
     setContentList(newFlag);
   };
 
+  
+
   // 결과 선택
 
   // const handleChangeEditText = (e) => {
@@ -317,7 +318,6 @@ const MyNoticeDetail = () => {
   };
 
   const handleProgressChange = e => {
-    
     setNoticeData({ ...noticeData, progress: e.target.value });
   };
 
@@ -415,12 +415,10 @@ const MyNoticeDetail = () => {
           ></TagInput>
         </div>
         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-          
           <TagBigBox>
             {noticeData?.noticeTag?.split(', ').map((tag, index) => (
               <ResultTag key={index}>#{tag} </ResultTag>
             ))}
-            
           </TagBigBox>
         </div>
       </CompanyBox>
@@ -444,7 +442,7 @@ const MyNoticeDetail = () => {
       )} */}
       {noticeData?.intros?.map((intros, index) => (
         <div key={index}>
-          <div style={{display:"flex"}}>
+          <div style={{ display: 'flex' }}>
             {intros?.introTag?.split(', ').map((tag, index) => (
               <ResultTag key={index} id="contentFont">
                 {tag}
