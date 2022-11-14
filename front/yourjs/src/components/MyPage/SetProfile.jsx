@@ -41,6 +41,7 @@ const TitleFont = styled.p`
 
 const ProfileDiv = styled.div`
   display: flex;
+  margin-top: 3%;
   width: 100%;
   flex-wrap: wrap;
   margin-bottom: 30px;
@@ -74,6 +75,7 @@ const SelectedProfileDiv = styled.div`
   width: 100%;
   height: 30%;
   display: flex;
+  margin-top: 3%;
   justify-content: center;
 `;
 
