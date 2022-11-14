@@ -90,7 +90,7 @@ const MyAccountInfo = () => {
       <SelectedProfileDiv>
         <SelectedImage
           src={
-            data.userImg === '-1'
+            data.userImg === '-1' || data.userImg === null
               ? Profile00
               : profileImgList[parseInt(data.userImg)]
           }
