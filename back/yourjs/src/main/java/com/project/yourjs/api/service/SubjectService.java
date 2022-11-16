@@ -26,6 +26,7 @@ public class SubjectService {
     private final UserSubjectRepository userSubjectRepository;
     private final UserRepository userRepository;
     private final NoticeRepository noticeRepository;
+    private final NoticeService noticeService;
 
 
     @Transactional
@@ -46,8 +47,15 @@ public class SubjectService {
             if (tempUser.getUserId().equals(userId)) {
                 continue;
             }
-            int cnt = noticeRepository.countAllByUser(tempUser);
-            System.out.println(cnt);
+//            int cnt = noticeRepository.countAllByUser(tempUser);
+            int cnt = 0;
+            List<Notice> notices = noticeRepository.findAllByUser(tempUser);
+            for (Notice notice : notices) {
+                if (noticeService.getScheduleByNoticeSeqWithDate(notice.getNoticeSeq()) != null) {
+                    cnt += 1;
+                }
+            }
+
             if (cnt == 0) {
                 continue;
             }
