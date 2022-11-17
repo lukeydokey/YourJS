@@ -23,15 +23,15 @@ import lombok.Setter;
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "schedule_seq")
+    @Column(name = "schedule_seq", nullable = false)
     private Integer scheduleSeq;
     
-    @Column(name = "notice_seq")
+    @Column(name = "notice_seq", nullable = false)
     private Integer noticeSeq;
 
-    @Column(name = "schedule_name")
+    @Column(name = "schedule_name", nullable = false)
     private String scheduleName;
 
-    @Column(name = "schedule_date")
+    @Column(name = "schedule_date", nullable = false)
     private LocalDateTime scheduleDate;
 }
