@@ -59,7 +59,7 @@ public class User implements Serializable {
       @Column(name = "password", nullable = false)
       private String password;
 
-      @Column(name = "info_level", nullable = true)
+      @Column(name = "info_level", nullable = true, columnDefinition = "default 3")
       private Integer infoLevel;
 
       @CreationTimestamp
