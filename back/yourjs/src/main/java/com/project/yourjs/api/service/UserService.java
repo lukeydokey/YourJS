@@ -262,7 +262,6 @@ public class UserService {
             sb.append("&code=" + code);
             sb.append("&client_secret="+clientSecret);
             bw.write(sb.toString());
-            System.out.println(sb.toString());
             // bw.flush();
 
             int responseCode = conn.getResponseCode();
