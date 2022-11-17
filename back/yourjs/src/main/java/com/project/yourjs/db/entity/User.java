@@ -48,10 +48,10 @@ public class User implements Serializable {
       @Column(name = "user_name", unique = true, nullable = false)
       private String userName;
 
-      @Column(name = "email", nullable = true)
+      @Column(name = "email", nullable = false)
       private String email;
 
-      @Column(name = "nickname", nullable = true)
+      @Column(name = "nickname", nullable = false)
       private String nickname;
 
       @JsonIgnore
