@@ -47,11 +47,6 @@ const array = [
     link: 'https://www.pearlabyss.com/ko-KR/Company/Careers/detail?_jobOpeningNo=268',
     date: '2022-11-27 23:59:59',
   },
-  {
-    title: '현대 모비스',
-    content: '2022년 4분기 현대모비스 신입사원 채용',
-    date: '2022-11-05 23:59:59',
-  },
 ];
 const RecommendNotice = () => {
   return (
