@@ -49,7 +49,7 @@ public class SelfIntro {
     @Column(name = "question")
     private String question;
 
-    @Column(name = "contents")
+    @Column(name = "contents", length = 1000)
     private String contents;
 
     @CreatedDate
