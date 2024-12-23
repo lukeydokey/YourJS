@@ -149,11 +149,11 @@ IT 개발자들이 보다 편리하고 체계적으로 구직 활동을 할 수 
 
 ---
 
-- [컨셉 기획](https://instinctive-lycra-6a0.notion.site/1-61347ca2898044a391bff120459447fe)
-- [기능명세서](https://instinctive-lycra-6a0.notion.site/1b62dfab65464a5bb1ea064ee302e398?v=a9b606a5be6a4940a2f80b84b14d3115)
+- [컨셉 기획](https://www.notion.so/lucassong94/1-61347ca2898044a391bff120459447fe?pvs=4)
+- [기능명세서](https://www.notion.so/lucassong94/1b62dfab65464a5bb1ea064ee302e398?v=a9b606a5be6a4940a2f80b84b14d3115&pvs=4)
 - [와이어프레임](https://www.figma.com/file/pCLij56CBmTVwLa61Ckvfg/Front-Layout?node-id=0%3A1&t=seFKzN9fOffsJI02-1)
 - [아키텍처](https://www.figma.com/file/zZnQuIyR4ga253a3GxXmZB/Architecture?node-id=0%3A1&t=WXoTOemsklZiVxVj-1)
-- [API 명세서](https://instinctive-lycra-6a0.notion.site/7fbd9ded233a4a42a59b9b692cb1cf75?v=88e3d362ce794c5da0dcf3d29025c2fb)
+- [API 명세서](https://www.notion.so/lucassong94/7fbd9ded233a4a42a59b9b692cb1cf75?v=88e3d362ce794c5da0dcf3d29025c2fb&pvs=4)
 - [ERD](https://www.erdcloud.com/d/bSWnpzLAPhQdsWDXz)
 
 ## **✔ 프로젝트 결과물**
